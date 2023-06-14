@@ -1,5 +1,5 @@
 
-export class Login{
+class Login{
     
     static logado = false
     static matLogado = null
@@ -10,7 +10,7 @@ export class Login{
     static callback_naook = null
     static config = {
         cor: '#048',
-        img: './logo141.png'
+        img: './logo150.png'
     }
     static endPoint = "http://127.0.0.1:8080"
     // http://127.0.0.1:8080/?matricula=123&senha=321

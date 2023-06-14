@@ -9,17 +9,15 @@ class Login{
     static callback_ok = null
     static callback_naook = null
     static config = {
-        cor: '#048',
-        img: './logo150.png'
+        cor: null,
+        img: null, //'./logo150.png'
+        endpoint: null // http://127.0.0.1:8080/?matricula=123&senha=321
     }
-    static endPoint = "http://127.0.0.1:8080"
-    // http://127.0.0.1:8080/?matricula=123&senha=321
+    // static endPoint = "http://127.0.0.1:8080"
+    
 
-    static login=(callback_ok,callback_naook,config=null)=>{
-        if(config != null){
-            this.config = config
-        }
-
+    static login=(callback_ok,callback_naook,config)=>{
+        this.config = config
         this.callback_ok=()=>{callback_ok()}
         this.callback_naook=()=>{callback_naook()}
 
@@ -124,22 +122,30 @@ class Login{
         const mat = document.querySelector('#f_username').value
         const pas = document.querySelector('#f_senha').value
 
-        const endPoint = `http://127.0.0.1:8080/?matricula=${mat}&senha=${pas}`
+        const endPoint = `${this.config.endpoint}/?matricula=${mat}&senha=${pas}`
         fetch(endPoint)
         .then(res=>res.json())
         .then(res=>{
             if(res){
-                this.logado = true
-                this.matLogado = mat
-                this.nomeLogado = res.nome
-                this.acessoLogado = res.acesso
+                sessionStorage.setItem('logado','true')
+                sessionStorage.setItem('matLogado',mat)
+                sessionStorage.setItem('nomeLogado',res.nome)
+                sessionStorage.setItem('acessoLogado',res.acesso)
+                // this.logado = true
+                // this.matLogado = mat
+                // this.nomeLogado = res.nome
+                // this.acessoLogado = res.acesso
                 this.callback_ok()
                 this.fechar()
             } else{
-                this.logado = false
-                this.matLogado = null
-                this.nomeLogado = null
-                this.acessoLogado = null
+                sessionStorage.setItem('logado','false')
+                sessionStorage.setItem('matLogado','')
+                sessionStorage.setItem('nomeLogado','')
+                sessionStorage.setItem('acessoLogado','')
+                // this.logado = false
+                // this.matLogado = null
+                // this.nomeLogado = null
+                // this.acessoLogado = null
                 this.callback_naook()
             }
         })
